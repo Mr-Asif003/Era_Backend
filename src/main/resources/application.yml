@@ -1,0 +1,53 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: era-backend
+
+
+  data:
+    mongodb:
+      uri: ${SPRING_DATA_MONGODB_URI:mongodb://localhost:27017/eradb}
+      database: eradb
+
+  redis:
+    host: ${SPRING_REDIS_HOST:localhost}
+    port: ${SPRING_REDIS_PORT:6379}
+    password: ${SPRING_REDIS_PASSWORD:}
+
+  kafka:
+    enabled: false
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: era-backend
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "com.era.backend.*"
+
+jwt:
+  secret: ${JWT_SECRET:ZXJhX2p3dF9zZWNyZXRfbWluaW11bV8yNTZfYml0c19sb25nX2NoYW5nZV9pbl9wcm9k}
+  access-expiry: ${JWT_ACCESS_EXPIRY:900000}       # 15 min
+  refresh-expiry: ${JWT_REFRESH_EXPIRY:604800000}  # 7 days
+
+fastapi:
+  url: ${FASTAPI_URL:http://localhost:8000}
+
+springdoc:
+  api-docs:
+    path: /docs
+  swagger-ui:
+    path: /swagger-ui
+
+logging:
+  level:
+    com.era: DEBUG
+    org.springframework.websocket: INFO
+    org.springframework.messaging: INFO
