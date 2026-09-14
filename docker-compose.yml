@@ -1,0 +1,15 @@
+version: "3.8"
+
+# MongoDB now lives on Atlas (cloud) - nothing to run locally for the
+# database. This file just builds/runs the backend container itself,
+# pulling its config from a local .env file (copy .env.example -> .env
+# and fill in your real values; .env is already in .gitignore).
+services:
+  backend:
+    build: .
+    container_name: era-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
