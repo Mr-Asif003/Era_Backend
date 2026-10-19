@@ -1,5 +1,6 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
+  address: 0.0.0.0
   servlet:
     context-path: /api
 
@@ -10,21 +11,30 @@ spring:
   data:
     mongodb:
       uri: ${SPRING_DATA_MONGODB_URI}
-      database: eradb
+      database: ${SPRING_DATA_MONGODB_DATABASE:eradb}
+
+  lifecycle:
+    timeout-per-shutdown-phase: 20s
 
 jwt:
-  secret: ${JWT_SECRET:ZXJhX2p3dF9zZWNyZXRfbWluaW11bV8yNTZfYml0c19sb25nX2NoYW5nZV9pbl9wcm9k}
+  secret: ${JWT_SECRET}
   access-expiry: ${JWT_ACCESS_EXPIRY:900000}
   refresh-expiry: ${JWT_REFRESH_EXPIRY:604800000}
 
 springdoc:
   api-docs:
+    enabled: ${SPRINGDOC_ENABLED:true}
     path: /docs
+
   swagger-ui:
+    enabled: ${SPRINGDOC_ENABLED:true}
     path: /swagger-ui
 
 logging:
   level:
-    com.era: DEBUG
+    root: INFO
+    com.era: INFO
     org.springframework.websocket: INFO
     org.springframework.messaging: INFO
+
+server.shutdown: graceful
